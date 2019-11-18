@@ -4,6 +4,8 @@ This repository contains the auto-generated code for interacting with the a-maze
 
 Enjoy! 🎉
 
+> You can use the client library to communicate with the server based on this document [api-description](#Documentation for API Endpoints) and based on the **Pull.The.Lever.Program.cs** class.
+
 
 # IO.Swagger - the C# library for the A-maze-ing API
 
@@ -34,71 +36,6 @@ Install-Package JsonSubTypes
 ```
 
 NOTE: RestSharp versions greater than 105.1.0 have a bug which causes file uploads to fail. See [RestSharp#742](https://github.com/restsharp/RestSharp/issues/742)
-
-<a name="installation"></a>
-## Installation
-Run the following command to generate the DLL
-- [Mac/Linux] `/bin/sh build.sh`
-- [Windows] `build.bat`
-
-Then include the DLL (under the `bin` folder) in the C# project, and use the namespaces:
-```csharp
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-```
-<a name="packaging"></a>
-## Packaging
-
-A `.nuspec` is included with the project. You can follow the Nuget quickstart to [create](https://docs.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package#create-the-package) and [publish](https://docs.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package#publish-the-package) packages.
-
-This `.nuspec` uses placeholders from the `.csproj`, so build the `.csproj` directly:
-
-```
-nuget pack -Build -OutputDirectory out IO.Swagger.csproj
-```
-
-Then, publish to a [local feed](https://docs.microsoft.com/en-us/nuget/hosting-packages/local-feeds) or [other host](https://docs.microsoft.com/en-us/nuget/hosting-packages/overview) and consume the new package via Nuget as usual.
-
-<a name="getting-started"></a>
-## Getting Started
-
-```csharp
-using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class Example
-    {
-        public void main()
-        {
-
-            // Configure API key authorization: User token
-            Configuration.Default.ApiKey.Add("Authorization", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("Authorization", "Bearer");
-
-            var apiInstance = new DocsApi();
-
-            try
-            {
-                // 📜 Some pointers to having csharp client code generation from a gRPC proto file.
-                string result = apiInstance.GRPCCsharpCodeGen();
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling DocsApi.GRPCCsharpCodeGen: " + e.Message );
-            }
-
-        }
-    }
-}
-```
 
 <a name="documentation-for-api-endpoints"></a>
 ## Documentation for API Endpoints
