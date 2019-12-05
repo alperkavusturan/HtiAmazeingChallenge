@@ -5,7 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **PlayerId** | **string** | The public unique identifier of a player. | [optional] 
 **Name** | **string** | The name a player has chosen to represent her. | [optional] 
-**IsInPlaythrough** | **bool?** | An indication of whether a player is currently playing a maze or not. | [optional] 
+**IsInMaze** | **bool?** | An indication of whether a player is currently playing a maze or not. | [optional] 
 **Maze** | **string** | The name of the maze the player is currently playing. Might be null if player  is not currently playing a maze. | [optional] 
 **HasFoundEasterEgg** | **bool?** | Wink wink. | [optional] 
 **MazeScoreInHand** | **int?** | How much score the player has in her hand. Only available if player is playing a maze. | [optional] 

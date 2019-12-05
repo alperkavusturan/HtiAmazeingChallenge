@@ -3,7 +3,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Direction** | **int?** | What is the relative direction of this tile. | [optional] 
+**Direction** | **string** | What is the relative direction of this tile. | [optional] 
 **IsStart** | **bool?** | Is this the tile where the maze begun. | [optional] 
 **AllowsExit** | **bool?** | Can you exit the maze on this tile. | [optional] 
 **AllowsScoreCollection** | **bool?** | Does this tile allow for score collection (moving score from your hand to your bag). | [optional] 

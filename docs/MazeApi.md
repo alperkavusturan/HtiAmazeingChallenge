@@ -5,12 +5,8 @@ All URIs are relative to *https://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CollectScore**](MazeApi.md#collectscore) | **POST** /api/maze/collectScore | 💰 Collect score from your hand to your bag.
-[**Enter**](MazeApi.md#enter) | **POST** /api/maze/enter | 🌟 Enter a maze.
 [**ExitMaze**](MazeApi.md#exitmaze) | **POST** /api/maze/exit | 🚪 Exit the maze.
-[**MoveDown**](MazeApi.md#movedown) | **POST** /api/maze/move/down | ⬇ Move down.
-[**MoveLeft**](MazeApi.md#moveleft) | **POST** /api/maze/move/left | ⬅ Move left.
-[**MoveRight**](MazeApi.md#moveright) | **POST** /api/maze/move/right | ➡ Move right.
-[**MoveUp**](MazeApi.md#moveup) | **POST** /api/maze/move/up | ⬆ Move up.
+[**Move**](MazeApi.md#move) | **POST** /api/maze/move | Move in the supplied direction.
 [**PossibleActions**](MazeApi.md#possibleactions) | **GET** /api/maze/possibleActions | 👀 Get the list of possible actions, from the tile where you are standing.
 
 
@@ -72,73 +68,7 @@ This endpoint does not need any parameter.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json, application/xml, text/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-<a name="enter"></a>
-# **Enter**
-> PossibleActionsAndCurrentScore Enter (string mazeName = null)
-
-🌟 Enter a maze.
-
-Keep in mind that you can only be playing one maze at a time. Invoking this method when you are already in a maze will result in a failure. Also, you can only play the same maze once. If you wish to play the same maze \"multiple times\", you need to request to forget your player data (via the player API).
-
-### Example
-```csharp
-using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class EnterExample
-    {
-        public void main()
-        {
-            // Configure API key authorization: User token
-            Configuration.Default.AddApiKey("Authorization", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.AddApiKeyPrefix("Authorization", "Bearer");
-
-            var apiInstance = new MazeApi();
-            var mazeName = mazeName_example;  // string | What maze do you wish to enter. (optional) 
-
-            try
-            {
-                // 🌟 Enter a maze.
-                PossibleActionsAndCurrentScore result = apiInstance.Enter(mazeName);
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling MazeApi.Enter: " + e.Message );
-            }
-        }
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **mazeName** | **string**| What maze do you wish to enter. | [optional] 
-
-### Return type
-
-[**PossibleActionsAndCurrentScore**](PossibleActionsAndCurrentScore.md)
-
-### Authorization
-
-[User token](../README.md#User token)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json, application/xml, text/xml
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -199,15 +129,15 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="movedown"></a>
-# **MoveDown**
-> PossibleActionsAndCurrentScore MoveDown ()
+<a name="move"></a>
+# **Move**
+> PossibleActionsAndCurrentScore Move (string direction)
 
-⬇ Move down.
+Move in the supplied direction.
 
 You must have already entered a maze. This method will return 200 even if you could not move in this direction. If there is a \"wall\" in your way and you try to move there.. well, it's gonna hurt, but you will remain in the same place.. which.. technically.. is valid.. 🤷🏻‍
 
@@ -221,7 +151,7 @@ using IO.Swagger.Model;
 
 namespace Example
 {
-    public class MoveDownExample
+    public class MoveExample
     {
         public void main()
         {
@@ -231,16 +161,17 @@ namespace Example
             // Configuration.Default.AddApiKeyPrefix("Authorization", "Bearer");
 
             var apiInstance = new MazeApi();
+            var direction = direction_example;  // string | 
 
             try
             {
-                // ⬇ Move down.
-                PossibleActionsAndCurrentScore result = apiInstance.MoveDown();
+                // Move in the supplied direction.
+                PossibleActionsAndCurrentScore result = apiInstance.Move(direction);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
             {
-                Debug.Print("Exception when calling MazeApi.MoveDown: " + e.Message );
+                Debug.Print("Exception when calling MazeApi.Move: " + e.Message );
             }
         }
     }
@@ -248,7 +179,10 @@ namespace Example
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **direction** | **string**|  | 
 
 ### Return type
 
@@ -261,193 +195,7 @@ This endpoint does not need any parameter.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json, application/xml, text/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-<a name="moveleft"></a>
-# **MoveLeft**
-> PossibleActionsAndCurrentScore MoveLeft ()
-
-⬅ Move left.
-
-You must have already entered a maze. This method will return 200 even if you could not move in this direction. If there is a \"wall\" in your way and you try to move there.. well, it's gonna hurt, but you will remain in the same place.. which.. technically.. is valid.. 🤷🏻‍
-
-### Example
-```csharp
-using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class MoveLeftExample
-    {
-        public void main()
-        {
-            // Configure API key authorization: User token
-            Configuration.Default.AddApiKey("Authorization", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.AddApiKeyPrefix("Authorization", "Bearer");
-
-            var apiInstance = new MazeApi();
-
-            try
-            {
-                // ⬅ Move left.
-                PossibleActionsAndCurrentScore result = apiInstance.MoveLeft();
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling MazeApi.MoveLeft: " + e.Message );
-            }
-        }
-    }
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**PossibleActionsAndCurrentScore**](PossibleActionsAndCurrentScore.md)
-
-### Authorization
-
-[User token](../README.md#User token)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json, application/xml, text/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-<a name="moveright"></a>
-# **MoveRight**
-> PossibleActionsAndCurrentScore MoveRight ()
-
-➡ Move right.
-
-You must have already entered a maze. This method will return 200 even if you could not move in this direction. If there is a \"wall\" in your way and you try to move there.. well, it's gonna hurt, but you will remain in the same place.. which.. technically.. is valid.. 🤷🏻‍
-
-### Example
-```csharp
-using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class MoveRightExample
-    {
-        public void main()
-        {
-            // Configure API key authorization: User token
-            Configuration.Default.AddApiKey("Authorization", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.AddApiKeyPrefix("Authorization", "Bearer");
-
-            var apiInstance = new MazeApi();
-
-            try
-            {
-                // ➡ Move right.
-                PossibleActionsAndCurrentScore result = apiInstance.MoveRight();
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling MazeApi.MoveRight: " + e.Message );
-            }
-        }
-    }
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**PossibleActionsAndCurrentScore**](PossibleActionsAndCurrentScore.md)
-
-### Authorization
-
-[User token](../README.md#User token)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json, application/xml, text/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-<a name="moveup"></a>
-# **MoveUp**
-> PossibleActionsAndCurrentScore MoveUp ()
-
-⬆ Move up.
-
-You must have already entered a maze. This method will return 200 even if you could not move in this direction. If there is a \"wall\" in your way and you try to move there.. well, it's gonna hurt, but you will remain in the same place.. which.. technically.. is valid.. 🤷🏻‍
-
-### Example
-```csharp
-using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class MoveUpExample
-    {
-        public void main()
-        {
-            // Configure API key authorization: User token
-            Configuration.Default.AddApiKey("Authorization", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.AddApiKeyPrefix("Authorization", "Bearer");
-
-            var apiInstance = new MazeApi();
-
-            try
-            {
-                // ⬆ Move up.
-                PossibleActionsAndCurrentScore result = apiInstance.MoveUp();
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling MazeApi.MoveUp: " + e.Message );
-            }
-        }
-    }
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**PossibleActionsAndCurrentScore**](PossibleActionsAndCurrentScore.md)
-
-### Authorization
-
-[User token](../README.md#User token)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json, application/xml, text/xml
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -509,7 +257,7 @@ This endpoint does not need any parameter.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json, application/xml, text/xml
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

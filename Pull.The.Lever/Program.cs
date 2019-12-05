@@ -8,10 +8,11 @@ namespace Client
         static async Task Main(string[] args)
         {
             // Configure API key authorization
-            IO.Swagger.Client.Configuration.Default.BasePath = "<<THE SERVER ADDRESS>>";
-            IO.Swagger.Client.Configuration.Default.AddDefaultHeader("Authorization", "<<YOUR TOKEN>>");
+            IO.Swagger.Client.Configuration.Default.BasePath = "https://maze.hightechict.nl";
+            IO.Swagger.Client.Configuration.Default.AddDefaultHeader("Authorization", "HTI Thanks You [9fa6]");
 
             var playerApi = new IO.Swagger.Api.PlayerApi();
+            await playerApi.ForgetAsync();
             Console.WriteLine("About to register...");
             await playerApi.RegisterAsync(name: "Amazing Player");
 
@@ -21,6 +22,13 @@ namespace Client
 
             foreach (var maze in allMazes)
                 Console.WriteLine($"[{maze.Name}] has a potential reward of [{maze.PotentialReward}] and contains [{maze.TotalTiles}] tiles;");
+
+            var chosenMaze = allMazes[0];
+            Console.WriteLine($"Choosing maze {chosenMaze.Name}");
+            var enterResult = await mazesApi.EnterAsync(chosenMaze.Name);
+            var mazeApi = new IO.Swagger.Api.MazeApi();
+            var newPossibles = await mazeApi.MoveAsync(enterResult.PossibleMoveActions[0].Direction?.ToString());
+            Console.WriteLine(string.Join(", ", newPossibles.PossibleMoveActions));
 
             Console.ReadLine();
         }
