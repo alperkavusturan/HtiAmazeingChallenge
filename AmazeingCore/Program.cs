@@ -9,7 +9,7 @@ namespace AmazeingCore
         static async Task Main(string[] args)
         {
 			var httpClient = new System.Net.Http.HttpClient();
-			httpClient.DefaultRequestHeaders.Add("Authorization", "HTI Thanks You [1527]");
+			httpClient.DefaultRequestHeaders.Add("Authorization", "<your key>");
 			
 			var client = new AmazeingClient("https://maze.hightechict.nl/", httpClient);
 
