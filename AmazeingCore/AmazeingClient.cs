@@ -10,851 +10,851 @@
 #pragma warning disable 1573 // Disable "CS1573 Parameter '...' has no matching param tag in the XML comment for ...
 #pragma warning disable 1591 // Disable "CS1591 Missing XML comment for publicly visible type or member ..."
 
-namespace HightechICT
+namespace AmazeingCore
 {
 	using System = global::System;
 
-	[System.CodeDom.Compiler.GeneratedCode("NSwag", "13.2.2.0 (NJsonSchema v10.1.4.0 (Newtonsoft.Json v9.0.0.0))")]
-	public partial class AmazeingClient
-	{
-		private string _baseUrl = "";
-		private System.Net.Http.HttpClient _httpClient;
-		private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
-
-		public AmazeingClient(string baseUrl, System.Net.Http.HttpClient httpClient)
-		{
-			BaseUrl = baseUrl;
-			_httpClient = httpClient;
-			_settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-		}
-
-		private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
-		{
-			var settings = new Newtonsoft.Json.JsonSerializerSettings();
-			UpdateJsonSerializerSettings(settings);
-			return settings;
-		}
-
-		public string BaseUrl
-		{
-			get { return _baseUrl; }
-			set { _baseUrl = value; }
-		}
-
-		protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
-
-		partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-		partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-		partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-		partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
-
-		/// <summary>ðŸ‘€ Get the list of possible actions, from the tile where you are standing.</summary>
-		/// <returns>The actions you can perform.</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> PossibleActions()
-		{
-			return PossibleActions(System.Threading.CancellationToken.None);
-		}
-
-		/// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-		/// <summary>ðŸ‘€ Get the list of possible actions, from the tile where you are standing.</summary>
-		/// <returns>The actions you can perform.</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public async System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> PossibleActions(System.Threading.CancellationToken cancellationToken)
-		{
-			var urlBuilder_ = new System.Text.StringBuilder();
-			urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/maze/possibleActions");
-
-			var client_ = _httpClient;
-			try
-			{
-				using (var request_ = new System.Net.Http.HttpRequestMessage())
-				{
-					request_.Method = new System.Net.Http.HttpMethod("GET");
-					request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-					PrepareRequest(client_, request_, urlBuilder_);
-					var url_ = urlBuilder_.ToString();
-					request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-					PrepareRequest(client_, request_, url_);
-
-					var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-					try
-					{
-						var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-						if (response_.Content != null && response_.Content.Headers != null)
-						{
-							foreach (var item_ in response_.Content.Headers)
-								headers_[item_.Key] = item_.Value;
-						}
-
-						ProcessResponse(client_, response_);
-
-						var status_ = ((int)response_.StatusCode).ToString();
-						if (status_ == "200")
-						{
-							var objectResponse_ = await ReadObjectResponse<PossibleActionsAndCurrentScore>(response_, headers_).ConfigureAwait(false);
-							return objectResponse_.Object;
-						}
-						else
-						if (status_ == "412")
-						{
-							string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("You haven\'t entered a maze yet. Use the enter action to get this party started.", (int)response_.StatusCode, responseText_, headers_, null);
-						}
-						else
-						if (status_ != "200" && status_ != "204")
-						{
-							var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
-						}
-
-						return default(PossibleActionsAndCurrentScore);
-					}
-					finally
-					{
-						if (response_ != null)
-							response_.Dispose();
-					}
-				}
-			}
-			finally
-			{
-			}
-		}
-
-		/// <summary>Move in the supplied direction.</summary>
-		/// <returns>The actions you can perform.</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> Move(Direction direction)
-		{
-			return Move(direction, System.Threading.CancellationToken.None);
-		}
-
-		/// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-		/// <summary>Move in the supplied direction.</summary>
-		/// <returns>The actions you can perform.</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public async System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> Move(Direction direction, System.Threading.CancellationToken cancellationToken)
-		{
-			if (direction == null)
-				throw new System.ArgumentNullException("direction");
-
-			var urlBuilder_ = new System.Text.StringBuilder();
-			urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/maze/move?");
-			urlBuilder_.Append(System.Uri.EscapeDataString("direction") + "=").Append(System.Uri.EscapeDataString(ConvertToString(direction, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-			urlBuilder_.Length--;
-
-			var client_ = _httpClient;
-			try
-			{
-				using (var request_ = new System.Net.Http.HttpRequestMessage())
-				{
-					request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
-					request_.Method = new System.Net.Http.HttpMethod("POST");
-					request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-					PrepareRequest(client_, request_, urlBuilder_);
-					var url_ = urlBuilder_.ToString();
-					request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-					PrepareRequest(client_, request_, url_);
-
-					var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-					try
-					{
-						var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-						if (response_.Content != null && response_.Content.Headers != null)
-						{
-							foreach (var item_ in response_.Content.Headers)
-								headers_[item_.Key] = item_.Value;
-						}
-
-						ProcessResponse(client_, response_);
-
-						var status_ = ((int)response_.StatusCode).ToString();
-						if (status_ == "200")
-						{
-							var objectResponse_ = await ReadObjectResponse<PossibleActionsAndCurrentScore>(response_, headers_).ConfigureAwait(false);
-							return objectResponse_.Object;
-						}
-						else
-						if (status_ == "412")
-						{
-							string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("You haven\'t entered a maze yet. Use the enter action to get this party started.", (int)response_.StatusCode, responseText_, headers_, null);
-						}
-						else
-						if (status_ != "200" && status_ != "204")
-						{
-							var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
-						}
-
-						return default(PossibleActionsAndCurrentScore);
-					}
-					finally
-					{
-						if (response_ != null)
-							response_.Dispose();
-					}
-				}
-			}
-			finally
-			{
-			}
-		}
-
-		/// <summary>ðŸ’° Collect score from your hand to your bag.</summary>
-		/// <returns>The actions you can perform.</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> CollectScore()
-		{
-			return CollectScore(System.Threading.CancellationToken.None);
-		}
-
-		/// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-		/// <summary>ðŸ’° Collect score from your hand to your bag.</summary>
-		/// <returns>The actions you can perform.</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public async System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> CollectScore(System.Threading.CancellationToken cancellationToken)
-		{
-			var urlBuilder_ = new System.Text.StringBuilder();
-			urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/maze/collectScore");
-
-			var client_ = _httpClient;
-			try
-			{
-				using (var request_ = new System.Net.Http.HttpRequestMessage())
-				{
-					request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
-					request_.Method = new System.Net.Http.HttpMethod("POST");
-					request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-					PrepareRequest(client_, request_, urlBuilder_);
-					var url_ = urlBuilder_.ToString();
-					request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-					PrepareRequest(client_, request_, url_);
-
-					var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-					try
-					{
-						var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-						if (response_.Content != null && response_.Content.Headers != null)
-						{
-							foreach (var item_ in response_.Content.Headers)
-								headers_[item_.Key] = item_.Value;
-						}
-
-						ProcessResponse(client_, response_);
-
-						var status_ = ((int)response_.StatusCode).ToString();
-						if (status_ == "200")
-						{
-							var objectResponse_ = await ReadObjectResponse<PossibleActionsAndCurrentScore>(response_, headers_).ConfigureAwait(false);
-							return objectResponse_.Object;
-						}
-						else
-						if (status_ == "403")
-						{
-							string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("Hey! Are you trying to collect score on a non score collection place, or without having any score in your hand to collect? No, no no.", (int)response_.StatusCode, responseText_, headers_, null);
-						}
-						else
-						if (status_ == "412")
-						{
-							string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("You haven\'t entered a maze yet. Use the enter action to get this party started.", (int)response_.StatusCode, responseText_, headers_, null);
-						}
-						else
-						if (status_ != "200" && status_ != "204")
-						{
-							var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
-						}
-
-						return default(PossibleActionsAndCurrentScore);
-					}
-					finally
-					{
-						if (response_ != null)
-							response_.Dispose();
-					}
-				}
-			}
-			finally
-			{
-			}
-		}
-
-		/// <summary>ðŸšª Exit the maze.</summary>
-		/// <returns>You have now exited the maze. We hope you enjoyed it. Maybe there are more mazes available?</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public System.Threading.Tasks.Task ExitMaze()
-		{
-			return ExitMaze(System.Threading.CancellationToken.None);
-		}
-
-		/// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-		/// <summary>ðŸšª Exit the maze.</summary>
-		/// <returns>You have now exited the maze. We hope you enjoyed it. Maybe there are more mazes available?</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public async System.Threading.Tasks.Task ExitMaze(System.Threading.CancellationToken cancellationToken)
-		{
-			var urlBuilder_ = new System.Text.StringBuilder();
-			urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/maze/exit");
-
-			var client_ = _httpClient;
-			try
-			{
-				using (var request_ = new System.Net.Http.HttpRequestMessage())
-				{
-					request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
-					request_.Method = new System.Net.Http.HttpMethod("POST");
-
-					PrepareRequest(client_, request_, urlBuilder_);
-					var url_ = urlBuilder_.ToString();
-					request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-					PrepareRequest(client_, request_, url_);
-
-					var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-					try
-					{
-						var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-						if (response_.Content != null && response_.Content.Headers != null)
-						{
-							foreach (var item_ in response_.Content.Headers)
-								headers_[item_.Key] = item_.Value;
-						}
-
-						ProcessResponse(client_, response_);
-
-						var status_ = ((int)response_.StatusCode).ToString();
-						if (status_ == "200")
-						{
-							return;
-						}
-						else
-						if (status_ == "403")
-						{
-							string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("Hey! Are you trying to exit the maze on a non exit place? No, no no.", (int)response_.StatusCode, responseText_, headers_, null);
-						}
-						else
-						if (status_ == "412")
-						{
-							string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("Wait, what? You haven\'t entered a maze yet and you are trying to exit it? \u00f0\u0178\u02dc\u00b1", (int)response_.StatusCode, responseText_, headers_, null);
-						}
-						else
-						if (status_ != "200" && status_ != "204")
-						{
-							var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
-						}
-					}
-					finally
-					{
-						if (response_ != null)
-							response_.Dispose();
-					}
-				}
-			}
-			finally
-			{
-			}
-		}
-
-		/// <summary>ðŸ“œ All the mazes that exist in the game.</summary>
-		/// <returns>All mazes that exist in the game.</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MazeInfo>> All()
-		{
-			return All(System.Threading.CancellationToken.None);
-		}
-
-		/// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-		/// <summary>ðŸ“œ All the mazes that exist in the game.</summary>
-		/// <returns>All mazes that exist in the game.</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MazeInfo>> All(System.Threading.CancellationToken cancellationToken)
-		{
-			var urlBuilder_ = new System.Text.StringBuilder();
-			urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/mazes/all");
-
-			var client_ = _httpClient;
-			try
-			{
-				using (var request_ = new System.Net.Http.HttpRequestMessage())
-				{
-					request_.Method = new System.Net.Http.HttpMethod("GET");
-					request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-					PrepareRequest(client_, request_, urlBuilder_);
-					var url_ = urlBuilder_.ToString();
-					request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-					PrepareRequest(client_, request_, url_);
-
-					var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-					try
-					{
-						var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-						if (response_.Content != null && response_.Content.Headers != null)
-						{
-							foreach (var item_ in response_.Content.Headers)
-								headers_[item_.Key] = item_.Value;
-						}
-
-						ProcessResponse(client_, response_);
-
-						var status_ = ((int)response_.StatusCode).ToString();
-						if (status_ == "200")
-						{
-							var objectResponse_ = await ReadObjectResponse<System.Collections.Generic.ICollection<MazeInfo>>(response_, headers_).ConfigureAwait(false);
-							return objectResponse_.Object;
-						}
-						else
-						if (status_ != "200" && status_ != "204")
-						{
-							var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
-						}
-
-						return default(System.Collections.Generic.ICollection<MazeInfo>);
-					}
-					finally
-					{
-						if (response_ != null)
-							response_.Dispose();
-					}
-				}
-			}
-			finally
-			{
-			}
-		}
-
-		/// <summary>ðŸŒŸ Enter a maze.</summary>
-		/// <param name="mazeName">What maze do you wish to enter.</param>
-		/// <returns>Welcome to this maze. Here are the possible actions you can take. Enjoy! ðŸŽ‰</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> Enter(string mazeName)
-		{
-			return Enter(mazeName, System.Threading.CancellationToken.None);
-		}
-
-		/// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-		/// <summary>ðŸŒŸ Enter a maze.</summary>
-		/// <param name="mazeName">What maze do you wish to enter.</param>
-		/// <returns>Welcome to this maze. Here are the possible actions you can take. Enjoy! ðŸŽ‰</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public async System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> Enter(string mazeName, System.Threading.CancellationToken cancellationToken)
-		{
-			if (mazeName == null)
-				throw new System.ArgumentNullException("mazeName");
-
-			var urlBuilder_ = new System.Text.StringBuilder();
-			urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/mazes/enter?");
-			urlBuilder_.Append(System.Uri.EscapeDataString("mazeName") + "=").Append(System.Uri.EscapeDataString(ConvertToString(mazeName, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-			urlBuilder_.Length--;
-
-			var client_ = _httpClient;
-			try
-			{
-				using (var request_ = new System.Net.Http.HttpRequestMessage())
-				{
-					request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
-					request_.Method = new System.Net.Http.HttpMethod("POST");
-					request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-					PrepareRequest(client_, request_, urlBuilder_);
-					var url_ = urlBuilder_.ToString();
-					request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-					PrepareRequest(client_, request_, url_);
-
-					var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-					try
-					{
-						var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-						if (response_.Content != null && response_.Content.Headers != null)
-						{
-							foreach (var item_ in response_.Content.Headers)
-								headers_[item_.Key] = item_.Value;
-						}
-
-						ProcessResponse(client_, response_);
-
-						var status_ = ((int)response_.StatusCode).ToString();
-						if (status_ == "200")
-						{
-							var objectResponse_ = await ReadObjectResponse<PossibleActionsAndCurrentScore>(response_, headers_).ConfigureAwait(false);
-							return objectResponse_.Object;
-						}
-						else
-						if (status_ == "400")
-						{
-							string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("The mazeName parameter was not supplied or an empty string. Have a look at the mazes API.", (int)response_.StatusCode, responseText_, headers_, null);
-						}
-						else
-						if (status_ == "404")
-						{
-							string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("The maze you requested does not exist. Have a look at the mazes API.", (int)response_.StatusCode, responseText_, headers_, null);
-						}
-						else
-						if (status_ == "409")
-						{
-							string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("You are either already playing a maze, or you have already played this maze.", (int)response_.StatusCode, responseText_, headers_, null);
-						}
-						else
-						if (status_ == "412")
-						{
-							string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("You haven\'t registered yet. You need to register (via the player API) before you can enter a maze.", (int)response_.StatusCode, responseText_, headers_, null);
-						}
-						else
-						if (status_ != "200" && status_ != "204")
-						{
-							var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
-						}
-
-						return default(PossibleActionsAndCurrentScore);
-					}
-					finally
-					{
-						if (response_ != null)
-							response_.Dispose();
-					}
-				}
-			}
-			finally
-			{
-			}
-		}
-
-		/// <summary>ðŸ“ Register yourself here.</summary>
-		/// <param name="name">The name you wish to represent you in the leader board.</param>
-		/// <returns>You have successfully registered. Cool ðŸ‘ðŸ»</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public System.Threading.Tasks.Task Register(string name)
-		{
-			return Register(name, System.Threading.CancellationToken.None);
-		}
-
-		/// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-		/// <summary>ðŸ“ Register yourself here.</summary>
-		/// <param name="name">The name you wish to represent you in the leader board.</param>
-		/// <returns>You have successfully registered. Cool ðŸ‘ðŸ»</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public async System.Threading.Tasks.Task Register(string name, System.Threading.CancellationToken cancellationToken)
-		{
-			if (name == null)
-				throw new System.ArgumentNullException("name");
-
-			var urlBuilder_ = new System.Text.StringBuilder();
-			urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/player/register?");
-			urlBuilder_.Append(System.Uri.EscapeDataString("name") + "=").Append(System.Uri.EscapeDataString(ConvertToString(name, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-			urlBuilder_.Length--;
-
-			var client_ = _httpClient;
-			try
-			{
-				using (var request_ = new System.Net.Http.HttpRequestMessage())
-				{
-					request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
-					request_.Method = new System.Net.Http.HttpMethod("POST");
-
-					PrepareRequest(client_, request_, urlBuilder_);
-					var url_ = urlBuilder_.ToString();
-					request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-					PrepareRequest(client_, request_, url_);
-
-					var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-					try
-					{
-						var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-						if (response_.Content != null && response_.Content.Headers != null)
-						{
-							foreach (var item_ in response_.Content.Headers)
-								headers_[item_.Key] = item_.Value;
-						}
-
-						ProcessResponse(client_, response_);
-
-						var status_ = ((int)response_.StatusCode).ToString();
-						if (status_ == "202")
-						{
-							return;
-						}
-						else
-						if (status_ == "400")
-						{
-							string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("Empty or whitespace-only names or names longer than 50 characters are not valid.", (int)response_.StatusCode, responseText_, headers_, null);
-						}
-						else
-						if (status_ == "409")
-						{
-							string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("You are already registered. If you wish to re-register, you should invoke Forget first.", (int)response_.StatusCode, responseText_, headers_, null);
-						}
-						else
-						if (status_ != "200" && status_ != "204")
-						{
-							var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
-						}
-					}
-					finally
-					{
-						if (response_ != null)
-							response_.Dispose();
-					}
-				}
-			}
-			finally
-			{
-			}
-		}
-
-		/// <summary>ðŸ‘¤ Obtain information about yourself.</summary>
-		/// <returns>Your current information.</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public System.Threading.Tasks.Task<PlayerInfo> Get()
-		{
-			return Get(System.Threading.CancellationToken.None);
-		}
-
-		/// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-		/// <summary>ðŸ‘¤ Obtain information about yourself.</summary>
-		/// <returns>Your current information.</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public async System.Threading.Tasks.Task<PlayerInfo> Get(System.Threading.CancellationToken cancellationToken)
-		{
-			var urlBuilder_ = new System.Text.StringBuilder();
-			urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/player");
-
-			var client_ = _httpClient;
-			try
-			{
-				using (var request_ = new System.Net.Http.HttpRequestMessage())
-				{
-					request_.Method = new System.Net.Http.HttpMethod("GET");
-					request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-					PrepareRequest(client_, request_, urlBuilder_);
-					var url_ = urlBuilder_.ToString();
-					request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-					PrepareRequest(client_, request_, url_);
-
-					var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-					try
-					{
-						var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-						if (response_.Content != null && response_.Content.Headers != null)
-						{
-							foreach (var item_ in response_.Content.Headers)
-								headers_[item_.Key] = item_.Value;
-						}
-
-						ProcessResponse(client_, response_);
-
-						var status_ = ((int)response_.StatusCode).ToString();
-						if (status_ == "200")
-						{
-							var objectResponse_ = await ReadObjectResponse<PlayerInfo>(response_, headers_).ConfigureAwait(false);
-							return objectResponse_.Object;
-						}
-						else
-						if (status_ == "404")
-						{
-							string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("You haven\'t registered yet.", (int)response_.StatusCode, responseText_, headers_, null);
-						}
-						else
-						if (status_ != "200" && status_ != "204")
-						{
-							var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
-						}
-
-						return default(PlayerInfo);
-					}
-					finally
-					{
-						if (response_ != null)
-							response_.Dispose();
-					}
-				}
-			}
-			finally
-			{
-			}
-		}
-
-		/// <summary>ðŸ™ˆ Forget your current progress.</summary>
-		/// <returns>Success</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public System.Threading.Tasks.Task Forget()
-		{
-			return Forget(System.Threading.CancellationToken.None);
-		}
-
-		/// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-		/// <summary>ðŸ™ˆ Forget your current progress.</summary>
-		/// <returns>Success</returns>
-		/// <exception cref="ApiException">A server side error occurred.</exception>
-		public async System.Threading.Tasks.Task Forget(System.Threading.CancellationToken cancellationToken)
-		{
-			var urlBuilder_ = new System.Text.StringBuilder();
-			urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/player/forget");
-
-			var client_ = _httpClient;
-			try
-			{
-				using (var request_ = new System.Net.Http.HttpRequestMessage())
-				{
-					request_.Method = new System.Net.Http.HttpMethod("DELETE");
-
-					PrepareRequest(client_, request_, urlBuilder_);
-					var url_ = urlBuilder_.ToString();
-					request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-					PrepareRequest(client_, request_, url_);
-
-					var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-					try
-					{
-						var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-						if (response_.Content != null && response_.Content.Headers != null)
-						{
-							foreach (var item_ in response_.Content.Headers)
-								headers_[item_.Key] = item_.Value;
-						}
-
-						ProcessResponse(client_, response_);
-
-						var status_ = ((int)response_.StatusCode).ToString();
-						if (status_ == "202")
-						{
-							return;
-						}
-						else
-						if (status_ != "200" && status_ != "204")
-						{
-							var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-							throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
-						}
-					}
-					finally
-					{
-						if (response_ != null)
-							response_.Dispose();
-					}
-				}
-			}
-			finally
-			{
-			}
-		}
-
-		protected struct ObjectResponseResult<T>
-		{
-			public ObjectResponseResult(T responseObject, string responseText)
-			{
-				this.Object = responseObject;
-				this.Text = responseText;
-			}
-
-			public T Object { get; }
-
-			public string Text { get; }
-		}
-
-		public bool ReadResponseAsString { get; set; }
-
-		protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponse<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
-		{
-			if (response == null || response.Content == null)
-			{
-				return new ObjectResponseResult<T>(default(T), string.Empty);
-			}
-
-			if (ReadResponseAsString)
-			{
-				var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-				try
-				{
-					var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
-					return new ObjectResponseResult<T>(typedBody, responseText);
-				}
-				catch (Newtonsoft.Json.JsonException exception)
-				{
-					var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-					throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
-				}
-			}
-			else
-			{
-				try
-				{
-					using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-					using (var streamReader = new System.IO.StreamReader(responseStream))
-					using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
-					{
-						var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
-						var typedBody = serializer.Deserialize<T>(jsonTextReader);
-						return new ObjectResponseResult<T>(typedBody, string.Empty);
-					}
-				}
-				catch (Newtonsoft.Json.JsonException exception)
-				{
-					var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-					throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
-				}
-			}
-		}
-
-		private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
-		{
-			if (value is System.Enum)
-			{
-				string name = System.Enum.GetName(value.GetType(), value);
-				if (name != null)
-				{
-					var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
-					if (field != null)
-					{
-						var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
-							as System.Runtime.Serialization.EnumMemberAttribute;
-						if (attribute != null)
-						{
-							return attribute.Value != null ? attribute.Value : name;
-						}
-					}
-				}
-			}
-			else if (value is bool)
-			{
-				return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
-			}
-			else if (value is byte[])
-			{
-				return System.Convert.ToBase64String((byte[])value);
-			}
-			else if (value != null && value.GetType().IsArray)
-			{
-				var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
-				return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
-			}
-
-			return System.Convert.ToString(value, cultureInfo);
-		}
-	}
-
-	/// <summary>From the current tile where you stand, what actions are available on it and on the surrounding tiles.</summary>
-	[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.4.0 (Newtonsoft.Json v9.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.2.2.0 (NJsonSchema v10.1.4.0 (Newtonsoft.Json v9.0.0.0))")]
+    public partial class AmazeingClient : IAmazeingClient
+    {
+        private string _baseUrl = "";
+        private System.Net.Http.HttpClient _httpClient;
+        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+
+        public AmazeingClient(string baseUrl, System.Net.Http.HttpClient httpClient)
+        {
+            BaseUrl = baseUrl;
+            _httpClient = httpClient;
+            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
+
+        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        {
+            var settings = new Newtonsoft.Json.JsonSerializerSettings();
+            UpdateJsonSerializerSettings(settings);
+            return settings;
+        }
+
+        public string BaseUrl
+        {
+            get { return _baseUrl; }
+            set { _baseUrl = value; }
+        }
+
+        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
+
+        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
+        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
+        partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
+        partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+
+        /// <summary>ðŸ‘€ Get the list of possible actions, from the tile where you are standing.</summary>
+        /// <returns>The actions you can perform.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> PossibleActions()
+        {
+            return PossibleActions(System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>ðŸ‘€ Get the list of possible actions, from the tile where you are standing.</summary>
+        /// <returns>The actions you can perform.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> PossibleActions(System.Threading.CancellationToken cancellationToken)
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/maze/possibleActions");
+
+            var client_ = _httpClient;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200")
+                        {
+                            var objectResponse_ = await ReadObjectResponse<PossibleActionsAndCurrentScore>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == "412")
+                        {
+                            string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("You haven\'t entered a maze yet. Use the enter action to get this party started.", (int)response_.StatusCode, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+
+                        return default(PossibleActionsAndCurrentScore);
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>Move in the supplied direction.</summary>
+        /// <returns>The actions you can perform.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> Move(Direction direction)
+        {
+            return Move(direction, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Move in the supplied direction.</summary>
+        /// <returns>The actions you can perform.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> Move(Direction direction, System.Threading.CancellationToken cancellationToken)
+        {
+            if (direction == null)
+                throw new System.ArgumentNullException("direction");
+
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/maze/move?");
+            urlBuilder_.Append(System.Uri.EscapeDataString("direction") + "=").Append(System.Uri.EscapeDataString(ConvertToString(direction, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200")
+                        {
+                            var objectResponse_ = await ReadObjectResponse<PossibleActionsAndCurrentScore>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == "412")
+                        {
+                            string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("You haven\'t entered a maze yet. Use the enter action to get this party started.", (int)response_.StatusCode, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+
+                        return default(PossibleActionsAndCurrentScore);
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>ðŸ’° Collect score from your hand to your bag.</summary>
+        /// <returns>The actions you can perform.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> CollectScore()
+        {
+            return CollectScore(System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>ðŸ’° Collect score from your hand to your bag.</summary>
+        /// <returns>The actions you can perform.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> CollectScore(System.Threading.CancellationToken cancellationToken)
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/maze/collectScore");
+
+            var client_ = _httpClient;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200")
+                        {
+                            var objectResponse_ = await ReadObjectResponse<PossibleActionsAndCurrentScore>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == "403")
+                        {
+                            string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Hey! Are you trying to collect score on a non score collection place, or without having any score in your hand to collect? No, no no.", (int)response_.StatusCode, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == "412")
+                        {
+                            string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("You haven\'t entered a maze yet. Use the enter action to get this party started.", (int)response_.StatusCode, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+
+                        return default(PossibleActionsAndCurrentScore);
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>ðŸšª Exit the maze.</summary>
+        /// <returns>You have now exited the maze. We hope you enjoyed it. Maybe there are more mazes available?</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task ExitMaze()
+        {
+            return ExitMaze(System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>ðŸšª Exit the maze.</summary>
+        /// <returns>You have now exited the maze. We hope you enjoyed it. Maybe there are more mazes available?</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task ExitMaze(System.Threading.CancellationToken cancellationToken)
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/maze/exit");
+
+            var client_ = _httpClient;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200")
+                        {
+                            return;
+                        }
+                        else
+                        if (status_ == "403")
+                        {
+                            string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Hey! Are you trying to exit the maze on a non exit place? No, no no.", (int)response_.StatusCode, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == "412")
+                        {
+                            string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Wait, what? You haven\'t entered a maze yet and you are trying to exit it? \u00f0\u0178\u02dc\u00b1", (int)response_.StatusCode, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>ðŸ“œ All the mazes that exist in the game.</summary>
+        /// <returns>All mazes that exist in the game.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MazeInfo>> AllMazes()
+        {
+            return AllMazes(System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>ðŸ“œ All the mazes that exist in the game.</summary>
+        /// <returns>All mazes that exist in the game.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MazeInfo>> AllMazes(System.Threading.CancellationToken cancellationToken)
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/mazes/all");
+
+            var client_ = _httpClient;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200")
+                        {
+                            var objectResponse_ = await ReadObjectResponse<System.Collections.Generic.ICollection<MazeInfo>>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+
+                        return default(System.Collections.Generic.ICollection<MazeInfo>);
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>ðŸŒŸ Enter a maze.</summary>
+        /// <param name="mazeName">What maze do you wish to enter.</param>
+        /// <returns>Welcome to this maze. Here are the possible actions you can take. Enjoy! ðŸŽ‰</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> EnterMaze(string mazeName)
+        {
+            return EnterMaze(mazeName, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>ðŸŒŸ Enter a maze.</summary>
+        /// <param name="mazeName">What maze do you wish to enter.</param>
+        /// <returns>Welcome to this maze. Here are the possible actions you can take. Enjoy! ðŸŽ‰</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task<PossibleActionsAndCurrentScore> EnterMaze(string mazeName, System.Threading.CancellationToken cancellationToken)
+        {
+            if (mazeName == null)
+                throw new System.ArgumentNullException("mazeName");
+
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/mazes/enter?");
+            urlBuilder_.Append(System.Uri.EscapeDataString("mazeName") + "=").Append(System.Uri.EscapeDataString(ConvertToString(mazeName, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200")
+                        {
+                            var objectResponse_ = await ReadObjectResponse<PossibleActionsAndCurrentScore>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == "400")
+                        {
+                            string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The mazeName parameter was not supplied or an empty string. Have a look at the mazes API.", (int)response_.StatusCode, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == "404")
+                        {
+                            string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The maze you requested does not exist. Have a look at the mazes API.", (int)response_.StatusCode, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == "409")
+                        {
+                            string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("You are either already playing a maze, or you have already played this maze.", (int)response_.StatusCode, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == "412")
+                        {
+                            string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("You haven\'t registered yet. You need to register (via the player API) before you can enter a maze.", (int)response_.StatusCode, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+
+                        return default(PossibleActionsAndCurrentScore);
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>ðŸ“ Register yourself here.</summary>
+        /// <param name="name">The name you wish to represent you in the leader board.</param>
+        /// <returns>You have successfully registered. Cool ðŸ‘ðŸ»</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task RegisterPlayer(string name)
+        {
+            return RegisterPlayer(name, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>ðŸ“ Register yourself here.</summary>
+        /// <param name="name">The name you wish to represent you in the leader board.</param>
+        /// <returns>You have successfully registered. Cool ðŸ‘ðŸ»</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task RegisterPlayer(string name, System.Threading.CancellationToken cancellationToken)
+        {
+            if (name == null)
+                throw new System.ArgumentNullException("name");
+
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/player/register?");
+            urlBuilder_.Append(System.Uri.EscapeDataString("name") + "=").Append(System.Uri.EscapeDataString(ConvertToString(name, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "202")
+                        {
+                            return;
+                        }
+                        else
+                        if (status_ == "400")
+                        {
+                            string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Empty or whitespace-only names or names longer than 50 characters are not valid.", (int)response_.StatusCode, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == "409")
+                        {
+                            string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("You are already registered. If you wish to re-register, you should invoke Forget first.", (int)response_.StatusCode, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>ðŸ‘¤ Obtain information about yourself.</summary>
+        /// <returns>Your current information.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<PlayerInfo> GetPlayerInfo()
+        {
+            return GetPlayerInfo(System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>ðŸ‘¤ Obtain information about yourself.</summary>
+        /// <returns>Your current information.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task<PlayerInfo> GetPlayerInfo(System.Threading.CancellationToken cancellationToken)
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/player");
+
+            var client_ = _httpClient;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200")
+                        {
+                            var objectResponse_ = await ReadObjectResponse<PlayerInfo>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == "404")
+                        {
+                            string responseText_ = (response_.Content == null) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("You haven\'t registered yet.", (int)response_.StatusCode, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+
+                        return default(PlayerInfo);
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>ðŸ™ˆ Forget your current progress.</summary>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task ForgetPlayer()
+        {
+            return ForgetPlayer(System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>ðŸ™ˆ Forget your current progress.</summary>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task ForgetPlayer(System.Threading.CancellationToken cancellationToken)
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/player/forget");
+
+            var client_ = _httpClient;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "202")
+                        {
+                            return;
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+            }
+        }
+
+        protected struct ObjectResponseResult<T>
+        {
+            public ObjectResponseResult(T responseObject, string responseText)
+            {
+                this.Object = responseObject;
+                this.Text = responseText;
+            }
+
+            public T Object { get; }
+
+            public string Text { get; }
+        }
+
+        public bool ReadResponseAsString { get; set; }
+
+        protected virtual async System.Threading.Tasks.Task<ObjectResponseResult<T>> ReadObjectResponse<T>(System.Net.Http.HttpResponseMessage response, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers)
+        {
+            if (response == null || response.Content == null)
+            {
+                return new ObjectResponseResult<T>(default(T), string.Empty);
+            }
+
+            if (ReadResponseAsString)
+            {
+                var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
+                    return new ObjectResponseResult<T>(typedBody, responseText);
+                }
+                catch (Newtonsoft.Json.JsonException exception)
+                {
+                    var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
+                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
+                }
+            }
+            else
+            {
+                try
+                {
+                    using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    using (var streamReader = new System.IO.StreamReader(responseStream))
+                    using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
+                    {
+                        var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
+                        var typedBody = serializer.Deserialize<T>(jsonTextReader);
+                        return new ObjectResponseResult<T>(typedBody, string.Empty);
+                    }
+                }
+                catch (Newtonsoft.Json.JsonException exception)
+                {
+                    var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
+                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
+                }
+            }
+        }
+
+        private string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        {
+            if (value is System.Enum)
+            {
+                string name = System.Enum.GetName(value.GetType(), value);
+                if (name != null)
+                {
+                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    if (field != null)
+                    {
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                            as System.Runtime.Serialization.EnumMemberAttribute;
+                        if (attribute != null)
+                        {
+                            return attribute.Value != null ? attribute.Value : name;
+                        }
+                    }
+                }
+            }
+            else if (value is bool)
+            {
+                return System.Convert.ToString(value, cultureInfo).ToLowerInvariant();
+            }
+            else if (value is byte[])
+            {
+                return System.Convert.ToBase64String((byte[])value);
+            }
+            else if (value != null && value.GetType().IsArray)
+            {
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+            }
+
+            return System.Convert.ToString(value, cultureInfo);
+        }
+    }
+
+    /// <summary>From the current tile where you stand, what actions are available on it and on the surrounding tiles.</summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.4.0 (Newtonsoft.Json v9.0.0.0)")]
 	public partial class PossibleActionsAndCurrentScore
 	{
 		/// <summary>The actions available on your surrounding tiles (lookahead of one tile).</summary>

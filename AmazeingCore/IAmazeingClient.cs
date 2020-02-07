@@ -2,30 +2,30 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HightechICT
+namespace AmazeingCore
 {
     public interface IAmazeingClient
     {
         string BaseUrl { get; set; }
         bool ReadResponseAsString { get; set; }
 
-        Task<ICollection<MazeInfo>> All();
-        Task<ICollection<MazeInfo>> All(CancellationToken cancellationToken);
+        Task<ICollection<MazeInfo>> AllMazes();
+        Task<ICollection<MazeInfo>> AllMazes(CancellationToken cancellationToken);
         Task<PossibleActionsAndCurrentScore> CollectScore();
         Task<PossibleActionsAndCurrentScore> CollectScore(CancellationToken cancellationToken);
-        Task<PossibleActionsAndCurrentScore> Enter(string mazeName);
-        Task<PossibleActionsAndCurrentScore> Enter(string mazeName, CancellationToken cancellationToken);
+        Task<PossibleActionsAndCurrentScore> EnterMaze(string mazeName);
+        Task<PossibleActionsAndCurrentScore> EnterMaze(string mazeName, CancellationToken cancellationToken);
         Task ExitMaze();
         Task ExitMaze(CancellationToken cancellationToken);
-        Task Forget();
-        Task Forget(CancellationToken cancellationToken);
-        Task<PlayerInfo> Get();
-        Task<PlayerInfo> Get(CancellationToken cancellationToken);
+        Task ForgetPlayer();
+        Task ForgetPlayer(CancellationToken cancellationToken);
+        Task<PlayerInfo> GetPlayerInfo();
+        Task<PlayerInfo> GetPlayerInfo(CancellationToken cancellationToken);
         Task<PossibleActionsAndCurrentScore> Move(Direction direction);
         Task<PossibleActionsAndCurrentScore> Move(Direction direction, CancellationToken cancellationToken);
         Task<PossibleActionsAndCurrentScore> PossibleActions();
         Task<PossibleActionsAndCurrentScore> PossibleActions(CancellationToken cancellationToken);
-        Task Register(string name);
-        Task Register(string name, CancellationToken cancellationToken);
+        Task RegisterPlayer(string name);
+        Task RegisterPlayer(string name, CancellationToken cancellationToken);
     }
 }
