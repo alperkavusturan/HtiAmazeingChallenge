@@ -9,12 +9,12 @@ namespace Client
         {
             // Configure API key authorization
             IO.Swagger.Client.Configuration.Default.BasePath = "https://maze.hightechict.nl";
-            IO.Swagger.Client.Configuration.Default.AddDefaultHeader("Authorization", "HTI Thanks You [9fa6]");
+            IO.Swagger.Client.Configuration.Default.AddDefaultHeader("Authorization", "<your key here>");
 
             var playerApi = new IO.Swagger.Api.PlayerApi();
             await playerApi.ForgetAsync();
             Console.WriteLine("About to register...");
-            await playerApi.RegisterAsync(name: "Amazing Player");
+            await playerApi.RegisterAsync(name: "<your name here>");
 
             var mazesApi = new IO.Swagger.Api.MazesApi();
             Console.WriteLine("About to obtain all mazes...");
